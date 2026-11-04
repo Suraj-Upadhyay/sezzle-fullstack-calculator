@@ -1,0 +1,7 @@
+node_modules/
+dist/
+coverage/
+coverage.out
+coverage.html
+*.tsbuildinfo
+.DS_Store
