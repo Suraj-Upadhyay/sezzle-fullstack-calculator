@@ -13,5 +13,10 @@ func routes(h *Handler) []httputil.Route {
 			Path:    "/api/v1/calculate",
 			Handler: h.calculate,
 		},
+		{
+			Method:  http.MethodPost,
+			Path:    "/api/v1/evaluate",
+			Handler: h.evaluate,
+		},
 	}
 }

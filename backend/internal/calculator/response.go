@@ -13,3 +13,8 @@ func newCalculateResponse(c Calculation, result float64) CalculateResponse {
 		Result:    result,
 	}
 }
+
+type EvaluateResponse struct {
+	Expression string  `json:"expression"`
+	Result     float64 `json:"result"`
+}

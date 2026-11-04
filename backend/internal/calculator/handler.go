@@ -8,6 +8,7 @@ import (
 
 type Calculator interface {
 	Calculate(c Calculation) (float64, error)
+	Evaluate(expression string) (float64, error)
 }
 
 type Handler struct {
@@ -32,4 +33,21 @@ func (h *Handler) calculate(w http.ResponseWriter, r *http.Request) error {
 
 	return httputil.WriteJSON(w, http.StatusOK,
 		newCalculateResponse(calculation, result))
+}
+
+func (h *Handler) evaluate(w http.ResponseWriter, r *http.Request) error {
+	req, err := httputil.DecodeJSON[EvaluateRequest](w, r)
+	if err != nil {
+		return err
+	}
+
+	result, err := h.calculator.Evaluate(req.Expression)
+	if err != nil {
+		return toAPIError(err)
+	}
+
+	return httputil.WriteJSON(w, http.StatusOK, EvaluateResponse{
+		Expression: req.Expression,
+		Result:     result,
+	})
 }

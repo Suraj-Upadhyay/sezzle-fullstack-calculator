@@ -15,3 +15,7 @@ func (req *CalculateRequest) toDomain() Calculation {
 		Operands:  operands,
 	}
 }
+
+type EvaluateRequest struct {
+	Expression string `json:"expression" validate:"required,max=500"`
+}
