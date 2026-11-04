@@ -68,6 +68,29 @@ func multiply(x []float64) (float64, error) {
 	return x[0] * x[1], nil
 }
 
+func (s *Service) Evaluate(expression string) (float64, error) {
+	tree, err := parse(expression)
+	if err != nil {
+		return 0, err
+	}
+	return s.evaluate(tree)
+}
+
+func (s *Service) evaluate(n *node) (float64, error) {
+	if n.op == "" {
+		return n.value, nil
+	}
+	operands := make([]float64, len(n.args))
+	for i, arg := range n.args {
+		value, err := s.evaluate(arg)
+		if err != nil {
+			return 0, err
+		}
+		operands[i] = value
+	}
+	return s.Calculate(Calculation{Operation: n.op, Operands: operands})
+}
+
 func divide(x []float64) (float64, error) {
 	if x[1] == 0 {
 		return 0, ErrDivisionByZero
