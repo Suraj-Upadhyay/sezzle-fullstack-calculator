@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/Suraj-Upadhyay/calculator/backend/internal/config"
+	"github.com/Suraj-Upadhyay/calculator/backend/internal/middleware"
 )
 
 func main() {
@@ -33,7 +34,7 @@ func run(ctx context.Context, cfg config.Config) error {
 
 	server := &http.Server{
 		Addr:              ":" + cfg.Port,
-		Handler:           mux,
+		Handler:           middleware.Wrap(mux),
 		ReadHeaderTimeout: 5 * time.Second,
 		ReadTimeout:       10 * time.Second,
 		WriteTimeout:      10 * time.Second,
