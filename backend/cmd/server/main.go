@@ -12,6 +12,7 @@ import (
 
 	"github.com/Suraj-Upadhyay/calculator/backend/internal/config"
 	"github.com/Suraj-Upadhyay/calculator/backend/internal/middleware"
+	"github.com/Suraj-Upadhyay/calculator/backend/internal/system"
 )
 
 func main() {
@@ -68,6 +69,7 @@ func run(ctx context.Context, cfg config.Config) error {
 }
 
 func registerRoutes(mux *http.ServeMux, cfg config.Config) {
+	system.Register(mux)
 
 	if cfg.StaticDir != "" {
 		mux.Handle("GET /", http.FileServerFS(os.DirFS(cfg.StaticDir)))
